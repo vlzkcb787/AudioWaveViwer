@@ -1,0 +1,103 @@
+<!-- ===================================
+renderer.html
+- UI 레이아웃(장치 선택, 모드 전환, 출력 토글, 파형/스펙트럼 캔버스)
+- WebAudio + Canvas는 renderer.js에서 처리
+=================================== -->
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <title>Electron Audio Scope</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; media-src 'self' blob:; img-src 'self' data:; style-src 'self' 'unsafe-inline';">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="toolbar">
+    <div class="row">
+      <!-- v4.0: 모드 선택 버튼 (가장 먼저) -->
+      <div class="mode-selector">
+        <button id="btnModeRealtime" class="mode-btn active">실시간</button>
+        <button id="btnModeFile" class="mode-btn">음원재생</button>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 실시간 모드 컨트롤 -->
+      <div id="realtimeControls" class="control-group">
+        <label>Input Device</label>
+        <select id="inputSelect"></select>
+        <button id="btnStart">Start</button>
+        <button id="btnStopRealtime" disabled>Stop</button>
+      </div>
+
+      <!-- 음원재생 모드 컨트롤 -->
+      <div id="fileControls" class="control-group" style="display: none;">
+        <label for="fileInput" class="file-label">파일 선택</label>
+        <input type="file" id="fileInput" accept="audio/*" style="display: none;">
+        <span id="fileName" class="file-name">파일을 선택하세요</span>
+        
+        <div class="timeline-controls-inline">
+          <span id="currentTime">00:00</span>
+          <canvas id="timelineGauge" width="120" height="20" class="timeline-gauge"></canvas>
+          <span id="totalTime">00:00</span>
+        </div>
+        
+        <button id="btnPlay" disabled>▶️</button>
+        <button id="btnPause" disabled>⏸️</button>
+        <button id="btnStop" disabled>⏹️</button>
+        <button id="btnRepeat" class="toggle">🔁</button>
+      </div>
+
+      <div class="divider"></div>
+
+      <!-- 공통 컨트롤 -->
+      <div class="common-controls">
+        <button id="btnOutput" class="toggle">Output: OFF</button>
+        <button id="btnClear">Clear Band</button>
+      </div>
+    </div>
+    <div class="row small">
+      <span id="status">Ready</span>
+    </div>
+  </header>
+
+  <main>
+    <section class="canvas-col" id="specSection">
+      <div class="section-header">
+        <h3>Spectrum (frequency)</h3>
+      </div>
+      <div class="canvas-container" id="specContainer">
+        <div class="canvas-wrapper">
+          <canvas id="specCanvas"></canvas>
+        </div>
+        <div class="legend">
+          <span class="legend-box realtime"></span> realtime
+          <span class="legend-box peak"></span> peak-hold
+        </div>
+      </div>
+    </section>
+    
+    <!-- 볼륨 게이지 -->
+    <section class="volume-panel">
+      <div class="volume-header">
+        <h4>Volume</h4>
+        <span id="volumeValue">100%</span>
+      </div>
+      <div class="volume-gauge-container">
+        <canvas id="volumeGauge" width="40" height="200"></canvas>
+        <div id="volumeDisplay" class="volume-display">100%</div>
+      </div>
+    </section>
+  </main>
+
+  <!-- v4.0: 로딩 모달 -->
+  <div id="loadingModal" class="loading-modal" style="display: none;">
+    <div class="loading-content">
+      <div class="loading-spinner"></div>
+      <p>로딩중입니다...</p>
+    </div>
+  </div>
+
+  <script src="renderer.js"></script>
+</body>
+</html>

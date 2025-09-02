@@ -1,0 +1,48 @@
+{
+  "name": "electron-audio-scope",
+  "version": "4.0.1",
+  "description": "Real-time waveform & spectrum viewer with band-pass audition",
+  "main": "src/main.js",
+  "author": "you",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "build-win": "electron-builder --win",
+    "build-mac": "electron-builder --mac",
+    "dist": "electron-builder --publish=never"
+  },
+  "devDependencies": {
+    "electron": "^32.0.0",
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "appId": "com.audiowaveviewer.app",
+    "productName": "AudioWave Viewer",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "src/**/*",
+      "package.json"
+    ],
+            "win": {
+          "target": "portable"
+        },
+        "mac": {
+          "target": "dmg",
+          "category": "public.app-category.utilities",
+          "identity": null,
+          "output": "dist/mac"
+        },
+        "linux": {
+          "target": "AppImage"
+        },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
+}

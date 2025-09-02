@@ -1,0 +1,55 @@
+# macOS 빌드 가이드 - AudioWave Viewer v4.0.1
+
+## 빌드 환경 요구사항
+- macOS 10.14 이상
+- Node.js 16 이상
+- npm 또는 yarn
+
+## 빌드 명령어
+
+### 1. 의존성 설치
+```bash
+npm install
+```
+
+### 2. macOS 빌드 실행
+```bash
+# DMG 파일 생성
+npm run build-mac
+
+# 또는 직접 electron-builder 사용
+npx electron-builder --mac
+```
+
+### 3. 빌드 결과
+- `dist/mac/AudioWave Viewer-4.0.1.dmg` - macOS 설치 파일
+- `dist/mac/AudioWave Viewer.app` - macOS 애플리케이션 번들
+
+## v4.0.1 주요 기능
+- 통일된 주파수 변환 모듈
+- 세분화된 스펙트럼 X축 간격 (0Hz~10kHz, 50Hz 단위)
+- 정확한 드래그 영역 주파수 계산
+- 실시간/파일 재생 모드 통합
+- 타임라인 게이지 시스템
+- 볼륨 제어 (0~1000%)
+
+## 빌드 설정
+현재 package.json에 다음 설정이 포함되어 있습니다:
+```json
+{
+  "build": {
+    "mac": {
+      "target": "dmg",
+      "category": "public.app-category.utilities",
+      "identity": null,
+      "output": "dist/mac"
+    }
+  }
+}
+```
+
+## 주의사항
+- `identity: null` 설정으로 코드 서명을 비활성화했습니다
+- 첫 실행 시 macOS에서 보안 경고가 표시될 수 있습니다
+- 시스템 환경설정 > 보안 및 개인 정보 보호에서 실행을 허용해야 합니다
+
